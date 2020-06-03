@@ -3,11 +3,11 @@ class User {
 
   User({this.uid});
 }
+
 class UserData {
   final String uid;
   final String name;
-  final String flavors;
-  final int scoop;
+  final String dishs;
 
-UserData({this.uid,this.name,this.flavors,this.scoop});
+  UserData({this.uid, this.name, this.dishs});
 }

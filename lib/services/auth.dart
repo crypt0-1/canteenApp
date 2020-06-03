@@ -50,7 +50,7 @@ Future registerWithEmailAndPassword(String email, String password) async {
 
     //create a new doc for user with uid
 
-    await DatabaseService(uid: user.uid).updateUserData('0','new member', 100);
+    await DatabaseService(uid: user.uid).updateUserData('0','new member');
     return _userFromFirebaseUser(user);
   }catch(e){
     print(e.toString());

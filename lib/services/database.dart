@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase/models/ice.dart';
+import 'package:firebase/models/food.dart';
 import 'package:firebase/models/user.dart';
 
 
@@ -7,12 +7,12 @@ import 'package:firebase/models/user.dart';
 class DatabaseService{
   final String uid;
   DatabaseService({this.uid});
-  final CollectionReference iceCreamCollection = Firestore.instance.collection('iceCreams');
-  Future updateUserData(String flavors,String name ,int scoops) async {
-    return await iceCreamCollection.document(uid).setData({
-      'flavors':flavors,
+  final CollectionReference foodCollection = Firestore.instance.collection('foods');
+  Future updateUserData(String dishs,String name ) async {
+    return await foodCollection.document(uid).setData({
+      'dishs':dishs,
       'name': name,
-      'scoops':scoops,
+      
     });
   }
 
@@ -21,8 +21,8 @@ List<Ice> _iceListFromSnapshot(QuerySnapshot snapshot){
   return snapshot.documents.map((doc){
       return Ice(
         name:doc.data['name'] ?? '',
-        scoops:doc.data['scoops'] ?? 100,
-        flavors:doc.data['flavors'] ?? '0',
+       
+        dishs:doc.data['dishs'] ?? '0',
 
 
       );
@@ -34,21 +34,21 @@ UserData _userDataFromSnapshot(DocumentSnapshot snapshot){
   return UserData(
     uid:uid,
     name:snapshot.data['name'],
-    flavors:snapshot.data['falvors'],
-    scoop:snapshot.data['scoops'],
+    dishs:snapshot.data['falvors'],
+    
   );
 }
 
 
-  //get icecream stream
+  //get food stream
 
-  Stream<List<Ice>> get iceCreams {
-    return iceCreamCollection.snapshots()
+  Stream<List<Ice>> get foods {
+    return foodCollection.snapshots()
     .map(_iceListFromSnapshot);
   }
 
   Stream<UserData> get userData {
-      return iceCreamCollection.document(uid).snapshots()
+      return foodCollection.document(uid).snapshots()
       .map(_userDataFromSnapshot);  
   }
 

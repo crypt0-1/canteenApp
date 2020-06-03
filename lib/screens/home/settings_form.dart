@@ -12,16 +12,15 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   final _formKey = GlobalKey<FormState>();
-  final List<String> flavors = [
-    'strawberry',
-    'chocolate',
-    'vanilla',
+  final List<String> dishs = [
+    'Rice',
+    'dosa',
+    'fried rice',
+    
   ];
-  final List<int> scoops = [100, 200, 300, 400, 500, 600, 700, 800, 900];
 
   String _currentName;
-  String _currentFlavors;
-  int _currentScoops;
+  String _currentdishs;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class _SettingsState extends State<Settings> {
         stream: DatabaseService(uid: user.uid).userData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            UserData userData =snapshot.data;
+            UserData userData = snapshot.data;
             return Form(
               key: _formKey,
               child: ListView(
@@ -52,40 +51,28 @@ class _SettingsState extends State<Settings> {
                   SizedBox(
                     height: 10,
                   ),
-               
                   DropdownButtonFormField(
-                     decoration: textInputDecoration,
-                     value: _currentFlavors ?? userData.flavors,
-                    items: flavors.map((flavor) {
+                    decoration: textInputDecoration,
+                    value: _currentdishs ?? userData.dishs,
+                    items: dishs.map((dish) {
                       return DropdownMenuItem(
-                        value: flavor,
-                        child: Text('$flavor falvors'),
+                        value: dish,
+                        child: Text('$dish '),
                       );
                     }).toList(),
-                    onChanged: (val) => setState(() => _currentFlavors = val),
+                    onChanged: (val) => setState(() => _currentdishs = val),
                   ),
-                      Slider(
-                  value: (_currentScoops ?? userData.scoop).toDouble(),
-                  activeColor: Colors.brown[_currentScoops ?? userData.scoop],
-                  inactiveColor: Colors.brown[_currentScoops ?? userData.scoop],
-                  min: 100.0,
-                  max: 900.0,
-            divisions: 8,
-                 
-                  onChanged: (val) => setState(() => _currentScoops = val.round()),
-                ),
                   RaisedButton(
                     color: Colors.pink,
                     child:
                         Text('update', style: TextStyle(color: Colors.white)),
                     onPressed: () async {
-                      if(_formKey.currentState.validate()){
-                        await DatabaseService(uid:user.uid).updateUserData(
-                          _currentFlavors ?? userData.flavors,
-                         _currentName ?? userData.name,
-                          _currentScoops ?? userData.scoop
-                          );
-                          Navigator.pop(context);
+                      if (_formKey.currentState.validate()) {
+                        await DatabaseService(uid: user.uid).updateUserData(
+                          _currentdishs ?? userData.dishs,
+                          _currentName ?? userData.name,
+                        );
+                        Navigator.pop(context);
                       }
                     },
                   ),
@@ -94,7 +81,6 @@ class _SettingsState extends State<Settings> {
             );
           } else {
             return Loading();
-
           }
         });
   }

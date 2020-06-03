@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase/screens/home/ice_list.dart';
+import 'package:firebase/screens/home/food_list.dart';
 import 'package:firebase/screens/home/settings_form.dart';
 import 'package:firebase/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase/services/database.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase/models/ice.dart';
+import 'package:firebase/models/food.dart';
 
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
@@ -20,7 +20,7 @@ class Home extends StatelessWidget {
       });
     }
     return StreamProvider<List<Ice>>.value(
-      value:DatabaseService().iceCreams,
+      value:DatabaseService().foods,
           child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -68,7 +68,7 @@ class Home extends StatelessWidget {
              label: Text('settings')),
           ],
         ),
-        body: IceCreamList(),
+        body: FoodList(),
       ),
     );
   }
